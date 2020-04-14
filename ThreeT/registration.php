@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang='en-US'>
+
 <html>
     <head>
         <title>Create account</title>
@@ -64,7 +64,7 @@
     </style>
     </head>
     <body>
-        <form class='createbox' action="" method="post">           
+        <form class='createbox' action="registration.php?action=Registration" method="post">           
             <h1>Create Account</h1>
             <div class='textbox'>
                 <input type='text' name='fullname' placeholder='Fullname'>
@@ -97,25 +97,36 @@
         </div>
         </form>
         <?php
-            include 'Connect_db1.php';
-            
-                if (isset($_POST['registration'])) {
-                    $Fullname=$_POST['fullname'];
-                    $Age=$_POST['age'];
-                    $Height=$_POST['height'];
-                    $Weight=$_POST['weight'];
-                    $Username=$_POST['username'];
-                    $Password=$_POST['password'];
-                    $Sex=$_POST['sex'];
-                    $Dateofbirth=$_POST['dateofbirth'];
-                    $Phone=$_POST['phone'];
-                    if ($Fullname=='' || $Age=='' || $Height=='' || $Weight=='' || $Username=='' || $Password=='' || $Sex=='' || $Dateofbirth=='' || $Phone=='') {
-                        echo '<p>Hãy điền đầy đủ thông tin!!!</p>';
+            include 'Connect_db1.php';           
+            if (isset($_GET['action']) && $_GET['action'] == 'Registration') {                
+                $Fullname=$_POST['fullname'];
+                $Age=$_POST['age'];
+                $Height=$_POST['height'];
+                $Weight=$_POST['weight'];
+                $Username=$_POST['username'];
+                $Password=$_POST['password'];
+                $Sex=$_POST['sex'];
+                $Dateofbirth=$_POST['dateofbirth'];
+                $Phone=$_POST['phone'];
+                if ($Fullname=='' || $Age=='' || $Height=='' || $Weight=='' || $Username=='' || $Password=='' || $Sex=='' || $Dateofbirth=='' || $Phone=='') {
+                    echo '<h2 style="text-align:center;">Hãy điền đầy đủ thông tin!!!!!!!!!</h2>';
+                } else {
+                    $check = TRUE;
+                    $result = mysqli_query($con, 'SELECT Username FROM `user`');
+                    while($row= mysqli_fetch_assoc($result)) {
+                        if ($row==$Username) {
+                            $check = FALSE;
+                        }
+                    }
+                    if ($check == FALSE) {                        
+                        echo '<h2 style="text-align:center;">Tài khoản này đã tồn tại!!!Vui lòng chọn tài khoản khác</h2>';
                     } else {
-                       $sql="INSERT INTO `user` (`Fullname`, `Age`, `Height`, `Weight`, `Username`, `Password`, `Sex`, `Date of birth`, `Phone`) VALUES ('$Fullname', '$Age', '$Height', '$Weight', '$Username', '$Password', '$Sex', '$Dateofbirth', '$Phone')";  
+                        $sql="INSERT INTO `user` (`Fullname`, `Age`, `Height`, `Weight`, `Username`, `Password`, `Sex`, `Date of birth`, `Phone`) VALUES ('$Fullname', '$Age', '$Height', '$Weight', '$Username', '$Password', '$Sex', '$Dateofbirth', '$Phone')";  
                         $query= mysqli_query($con, $sql);
-                    }            
+                        echo '<h2 style="text-align:center;">Tạo tài khoản thành công!!!!Quay trở lại<a href="./index.html">trang chủ</a></h2>';
+                    }                        
                 }
+            }
             
         ?>
     </body>

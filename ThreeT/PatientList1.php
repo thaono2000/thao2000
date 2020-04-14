@@ -36,7 +36,7 @@
         
         <div id='user-info'>
             <h1>Patient list</h1>
-            <a href='newEmptyPHP.php'>Create account</a>
+            <a href='registration.php'>Create account</a>
             <table id='user-listing' style='width: 800px'>
                 <tr>
                     <td>Fullname</td>
